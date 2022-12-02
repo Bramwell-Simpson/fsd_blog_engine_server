@@ -2,8 +2,9 @@ const express = require("express")
 const morgan = require('morgan')
 const bodyParser = require("body-parser");
 
-
 const app = express()
+
+require("./app/routes/articles.routes")(app);
 
 // Server port
 const HTTP_PORT = 3333 
