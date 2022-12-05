@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 
 const app = express()
 
-require("./app/routes/articles.routes")(app);
+
 
 // Server port
 const HTTP_PORT = 3333 
@@ -27,9 +27,10 @@ app.get("/", (req, res, next) => {
 });
 
 // Other API endpoints: Links go here...
-
+require("./app/routes/articles.routes")(app);
+require("./app/routes/users.routes")(app);
 
 // Default response for any other request
 app.use(function(req, res){
     res.sendStatus(404);
-});
+}); 
