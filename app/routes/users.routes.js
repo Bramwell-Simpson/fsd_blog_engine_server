@@ -1,4 +1,5 @@
 const users = require("../controllers/users.controllers");
+const auth = require("../lib/middleware");
 
 module.exports = function(app) {
     app.route("/users")
@@ -12,5 +13,5 @@ module.exports = function(app) {
         //.get(users.getToken)
 
     app.route("/logout")
-        .post(users.removeToken)
+        .post(auth.isAuthenticated, users.removeToken)
 }

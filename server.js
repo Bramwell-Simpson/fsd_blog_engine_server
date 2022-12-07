@@ -29,6 +29,7 @@ app.get("/", (req, res, next) => {
 // Other API endpoints: Links go here...
 require("./app/routes/articles.routes")(app);
 require("./app/routes/users.routes")(app);
+require("./app/routes/comments.routes")(app);
 
 // Default response for any other request
 app.use(function(req, res){
