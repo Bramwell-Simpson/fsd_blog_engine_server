@@ -74,9 +74,9 @@ const updateArticle = (req, res) => {
         }
 
         const schema = joi.object({
-            "title": joi.string(),
-            "author": joi.string(),
-            "article_text": joi.string()
+            "title": joi.string().allow(""),
+            "author": joi.string().allow(""),
+            "article_text": joi.string().allow("")
         });
     
         const {error} = schema.validate(req.body);
@@ -87,17 +87,33 @@ const updateArticle = (req, res) => {
 
         if(req.body.hasOwnProperty("title"))
         {
-            result.title = req.body.title;
+            if(req.body.title === "") {
+                result.title = result.title
+            }
+            else {
+                result.title = req.body.title;
+            }    
+            
         }
 
         if(req.body.hasOwnProperty("author"))
         {
-            result.author = req.body.author;
+            if(req.body.author === "") {
+                result.author = result.author
+            }
+            else {
+                result.author = req.body.author;
+            }
         }
 
         if(req.body.hasOwnProperty("article_text"))
         {
-            result.article_text = req.body.article_text;
+            if(req.body.article_text === "") {
+                result.article_text = result.article_text
+            }
+            else {
+                result.article_text =req.body.article_text;
+            }
         }
 
         articles.updateArticle(article_id, result, (err, id) => {
@@ -117,19 +133,14 @@ const deleteArticle = (req, res) => {
     let article_id = parseInt(req.params.id);
 
     articles.deleteArticle(article_id, (err) => {
-        
-        if(err === 404)
-        {
-            return res.sendStatus(404);
-        }
-    
         if(err)
         {
             console.log(err);
-            return res.sendStatus(500);
+            return res.sendStatus(404);
         }
-        
+
         return res.sendStatus(200)
+        
     })
 }
 

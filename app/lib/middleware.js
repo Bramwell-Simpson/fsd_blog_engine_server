@@ -1,14 +1,18 @@
-const users = require("../controllers/users.controllers");
+const users = require("../models/users.models");
+const jwt = require("jsonwebtoken");
 
 const isAuthenticated = function(req, res, next) {
-    let token = req.headers.cookie.split("=")[1];
 
-    if (token === "")
-    {
-        return res.sendStatus(401);
-    }
+    let token = req.get("X-Authorization");
 
-    next();
+    users.getIDFromToken(token, (err, id) => {
+    
+        if(err || !id) {
+            return res.sendStatus(401);
+        }
+
+        next();
+    });
 };
 
 module.exports = {

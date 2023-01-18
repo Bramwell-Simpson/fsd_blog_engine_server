@@ -5,6 +5,29 @@ const getHash = function(password, salt) {
     return crypto.pbkdf2Sync(password, salt, 100000, 256, "sha256").toString("hex");
 }
 
+const getAllUsers = (done) => {
+    
+    const sql = "SELECT * FROM users";
+    const results = [];
+    
+    db.each(sql, [], (err, row) => {
+
+        if(err)
+        {
+            console.log("Something went wrong: " + err);
+        }
+
+        results.push({
+            user_id: row.user_id,
+            first_name: row.first_name,
+            last_name: row.last_name,
+            email: row.email
+        });
+    }, (err, num_rows) => {
+        return done(err, num_rows, results);
+    });
+}
+
 const addNewUser = (user, done) => {
 
     const salt = crypto.randomBytes(64);
@@ -93,8 +116,8 @@ const removeToken = (token, done) => {
 
     const sql = "UPDATE users SET session_token=null WHERE session_token=?"
 
-    db.run(sql, [token], (err, token) => {
-        return done(err, token);
+    db.run(sql, [token], (err) => {
+        return done(err);
     })
 }
 
@@ -102,10 +125,13 @@ const getIDFromToken = (token, done) => {
 
     const sql = "SELECT user_id FROM users WHERE session_token=?"
 
-    db.get(sql, [token], (err, row) => {
+    db.get(sql, [token], function(err, row) {
 
         if(err)
         {
+            return done(err);
+        }
+        if(!row ) {
             return done(err);
         }
 
@@ -114,6 +140,7 @@ const getIDFromToken = (token, done) => {
 }
 
 module.exports = {
+    getAllUsers: getAllUsers,
     addNewUser: addNewUser,
     authenticateUser: authenticateUser,
     getToken: getToken,

@@ -151,7 +151,7 @@
  
      /*
       Try dodgy logout
-      */
+     */ 
      it("Should return 401 status code for logging out user not logged in", () => {
          return chai.request(SERVER_URL)
              .post("/logout")

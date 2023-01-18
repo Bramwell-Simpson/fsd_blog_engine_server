@@ -80,9 +80,16 @@ const deleteArticle = (id, done) => {
 
     const sql = "DELETE FROM articles WHERE article_id=?";
 
-    db.run(sql, [id], (err) => {
-        return done(err);
+    getSingleArticle(id, function(err, row) {
+        if (err || !row) {
+            return done(404);
+        }
+
+        db.run(sql, [id], (err) => {
+            return done(err);
+        })
     })
+
 }
 
 module.exports = {

@@ -12,3 +12,5 @@ module.exports = function(app) {
         .patch(auth.isAuthenticated, articles.updateArticle)
         .delete(auth.isAuthenticated, articles.deleteArticle);
 }
+
+//auth.isAuthenticated, 

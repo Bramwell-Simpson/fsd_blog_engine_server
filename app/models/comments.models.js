@@ -12,8 +12,7 @@ const getAllComments = (id, done) => {
             console.log("Something went wrong " + err);
             return done(err);
         }
-
-
+        
         rows.forEach((row) => {
             results.push({
                 comment_id: row.comment_id,
@@ -27,9 +26,30 @@ const getAllComments = (id, done) => {
     })
 }
 
+const getSingleComment = (id, done) => {
+    
+    const sql = "SELECT * FROM comments WHERE comment_id=?";
+
+    db.get(sql, [id], (err, row) => {
+        
+        if(err)
+        {
+            return done(err);
+        }
+        if(!row)
+        {
+            return done(404);
+        }
+
+        return done(null, {
+            comment_id: row.comment_id,
+        });
+    });
+}
+
 const createComment = (comment, id, done) => {
 
-    let date = Date.now();
+    let date = new Date(Date.now()).toLocaleDateString();
     const sql = "INSERT INTO comments (comment_text, date_published, article_id) VALUES (?,?,?)";
 
     let values = [comment.comment_text, date, id];
@@ -58,5 +78,6 @@ const deleteComment = (id, done) => {
 module.exports = {
     getAllComments: getAllComments,
     createComment: createComment,
-    deleteComment: deleteComment
+    deleteComment: deleteComment,
+    getSingleComment: getSingleComment
 }

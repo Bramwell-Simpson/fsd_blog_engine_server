@@ -5,6 +5,9 @@ module.exports = function(app) {
 
     app.route("/articles/:id/comments")
         .get(comments.getAll)
-        .post(auth.isAuthenticated, comments.create)
+        .post(comments.create)
+
+    app.route("/comments/:cmid")
         .delete(auth.isAuthenticated, comments.deleteComment)
 }
+//auth.isAuthenticated

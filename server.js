@@ -1,10 +1,9 @@
 const express = require("express")
 const morgan = require('morgan')
-const bodyParser = require("body-parser");
+//const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express()
-
-
 
 // Server port
 const HTTP_PORT = 3333 
@@ -18,8 +17,11 @@ app.listen(HTTP_PORT, () => {
 app.use(morgan('tiny'));
 
 // Body parser
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
+
+app.use(cors());
 
 // Root endpoint
 app.get("/", (req, res, next) => {

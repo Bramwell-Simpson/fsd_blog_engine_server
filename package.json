@@ -5,6 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha ./tests/test.*.js --reporter spec --log-level=warn --timeout 10000",
+    "test-login": "mocha ./tests/test.d.users.login.and.logout.js --reporter spec --log-level=warn --timeout 10000",
+    "test-comments-create": "mocha ./tests/test.i.comments.creation.js --reporter spec --log-level=warn --timeout 10000",
+    "test-comments-ret": "mocha ./tests/test.j.comments.retrieval.js --reporter spec --log-level=warn --timeout 10000",
+    "test-comments-del": "mocha ./tests/test.k.comments.delete.js --reporter spec --log-level=warn --timeout 10000",
     "dev": "nodemon server.js"
   },
   "author": "Ash Williams",
@@ -14,8 +18,10 @@
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "express": "^4.18.1",
     "joi": "^17.7.0",
+    "jsonwebtoken": "^9.0.0",
     "mocha": "^10.0.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.19",
